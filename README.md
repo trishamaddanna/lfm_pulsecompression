@@ -88,13 +88,13 @@ The flat root directory houses all core synthesizable codeblocks, automated simu
 *   `lfm_radar_simulation.m` — Comprehensive MATLAB signal processing validation model. Simulates floating-point chirp characteristics, implements Chebyshev filter window equations, and generates bit-true matched filter arrays.
 
 ### 🔬 MATLAB DSP Prototype Verification Plots
-*   `complex_lpf_filtered_chirp.jpg` — Frequency spectrum plot documenting clean 5–15 MHz IF band isolation following 40-tap Chebyshev FIR processing.
-*   `filtered_chirp.jpg` — Time-domain waveform trace illustrating envelope attenuation across the 10 µs pulse width.
-*   `pc_real.jpg` — Time-domain plot tracking the calculated fixed-point real (In-Phase) matched filter coefficient template.
-*   `pc_imag.jpg` — Time-domain plot tracking the calculated fixed-point imaginary (Quadrature) matched filter coefficient template.
-*   `pc_outreal.jpg` — Frequency domain plot mapping the spectral output of the compressed In-Phase baseband array.
-*   `pc_outimag.jpg` — Frequency domain plot mapping the spectral output of the compressed Quadrature baseband array.
+*   `complex_lpf_filtered_chirp.png` — Frequency spectrum plot documenting clean 5–15 MHz IF band isolation following 40-tap Chebyshev FIR processing.
+*   `filtered_chirp.png` — Time-domain waveform trace illustrating envelope attenuation across the 10 µs pulse width.
+*   `pc_real.png` — Time-domain plot tracking the calculated fixed-point real (In-Phase) matched filter coefficient template.
+*   `pc_imag.png` — Time-domain plot tracking the calculated fixed-point imaginary (Quadrature) matched filter coefficient template.
+*   `pc_outreal.png` — Frequency domain plot mapping the spectral output of the compressed In-Phase baseband array.
+*   `pc_outimag.png` — Frequency domain plot mapping the spectral output of the compressed Quadrature baseband array.
   
 ### Real-Time Hardware Logic Waveforms
-*   `mixer.jpg` — Multi-channel mixer timing capture showing the outputs for the I and Q channels after the incoming 5–15 MHz IF up-chirp is mixed against the 10 MHz reference oscillators.
-*   `lpf_and_pulse_compression.jpg` — Baseband analytic trace checking clean, filtered In-Phase (I) and Quadrature (Q) signal data outputs alongside the final compressed pulse envelope results routing out from the Chebyshev FIR and Matched Filter blocks.
+*   `mixer.png` — Multi-channel mixer timing capture showing the outputs for the I and Q channels after the incoming 5–15 MHz IF up-chirp is mixed against the 10 MHz reference oscillators.
+*   `lpf_and_pulse_compression.png` — Baseband analytic trace checking clean, filtered In-Phase (I) and Quadrature (Q) signal data outputs alongside the final compressed pulse envelope results routing out from the Chebyshev FIR and Matched Filter blocks.
