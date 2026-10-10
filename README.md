@@ -83,15 +83,15 @@ Operating at 200 MHz (5 ns clock steps), the main sequential process controls a 
 
 The companion prototype script (`lfm_radar_simulation.m`) validates the mathematical integrity of the signal processing chain prior to VHDL mapping:
 
-1.  **Parameter Definition:** Configures the sampling baseline frequency (\(f_s = 40\text{ MHz}\)) and pulse duration (\(T = 10\ \mu\text{s}\)). The aliased boundaries are established from \(f_1 = 5\text{ MHz}\) to \(f_2 = 15\text{ MHz}\), confirming a chirp sweep bandwidth (\(B\)) of \(10\text{ MHz}\).
-2.  **Chirp Generation:** Computes the phase trajectory gradient (\(K = (f_2 - f_1)/T\)) and synthesizes the complex analytic radar up-chirp vector array \(x_{\text{chirp}}(t)\) using the quadratic exponential identity:
-    
+1.  **Parameter Definition:** Configures the sampling baseline frequency (\(f_s = 40 \text{ MHz}\)) and pulse duration (\(T = 10 \ \mu\text{s}\)). The aliased boundaries are established from \(f_1 = 5 \text{ MHz}\) to \(f_2 = 15 \text{ MHz}\), confirming a chirp sweep bandwidth (\(B\)) of \(10 \text{ MHz}\).
+2.  **Chirp Generation:** Computes the phase trajectory gradient (\(K = (f_2 - f_1) / T\)) and synthesizes the complex analytic radar up-chirp vector array \(x_{\text{chirp}}(t)\) using the quadratic exponential identity:
+
     \[x_{\text{chirp}}(t) = e^{j \cdot 2\pi \cdot \left(f_1 \cdot t + \frac{1}{2}K \cdot t^2\right)}\]
 
-3.  **Low-Pass Filter Mappings:** Instantiates an FIR object array (`designfilt`) executing a 40th-order low-pass window profile centered on \(f_c = 8\text{ MHz}\). Coefficients are dynamically normalized (`coeffs / max(abs(coeffs))`) to protect fixed-point scaling steps from overflow saturation conditions.
+3.  **Low-Pass Filter Mappings:** Instantiates an FIR object array (`designfilt`) executing a 40th-order low-pass window profile centered on \(f_c = 8 \text{ MHz}\). Coefficients are dynamically normalized (`coeffs / max(abs(coeffs))`) to protect fixed-point scaling steps from overflow saturation conditions.
 4.  **Matched Filter Coefficient Computation:** Generates the stationary pulse compression target impulse response template \(h_{\text{matched}}(t)\) by executing a conjugated time-reversal handshake mapping on the filtered signal array \(x_{\text{filtered}}(t)\):
-    
-    \[h_{\text{matched}}(t) = \text{conj}\left(\text{fliplr}\left(x_{\text{filtered}}(t)\right)\right)\]
+
+    \[h_{\text{matched}}(t) = \text{conj}(\text{fliplr}(x_{\text{filtered}}(t)))\]
 
     The array is split into real orthogonal channels (`pc_real`, `pc_imag`) to drive independent discrete FIR hardware cores.
 5.  **Convolution Emulation:** Evaluates systemic processing gain by convolving the filtered baseband input arrays with the real and imaginary coefficient arrays via discrete `conv(rx, pc_real)` matrices. It applies a Fast Fourier Transform (`fft`) to map the compressed response spectrum into frequency-domain validation arrays (`pc_outreal`, `pc_outimag`).
