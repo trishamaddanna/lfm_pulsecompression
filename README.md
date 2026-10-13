@@ -11,7 +11,7 @@ The system captures an incoming **10 µs LFM radar pulse** spanning a **25–35 
 To maintain exact bit-true and cycle-accurate processing alignment across floating-point prototypes and physical FPGA hardware fabrics, the design was processed through a unified DSP toolchain flow:
 
 *   **Algorithmic Modeling & Filter Design:** Structured inside **MATLAB**. Used to simulate floating-point chirp characteristics, design the 40-tap Chebyshev window low-pass filters, generate bit-true fixed-point matched filter coefficient arrays via time-reversal (`conj(fliplr(x))`), and verify processing gain boundaries.
-*   **VHDL RTL Design & Simulation Testbench:** Architected, debugged, and cycle-accurately verified using **Vivado Simulator / ModelSim**. The testing environment implements differential system clocks (`sys_clk_p`/`n` at 200 MHz) and behavioral test vectors to track internal signal flows.
+*   **VHDL RTL Design & Simulation Testbench:** Architected, debugged, and cycle-accurately verified using **Vivado ILA**. The testing environment implements differential system clocks (`sys_clk_p`/`n` at 200 MHz) and behavioral test vectors to track internal signal flows.
 *   **Logic Synthesis & IP Core Integration:** Compiled and synthesized inside **Xilinx Vivado System Edition** targeting a **Xilinx Kintex-7 FPGA** fabric. The design integrates high-throughput LogiCORE IP compiler blocks utilizing optimized internal DSP48 slices.
 
 ---
