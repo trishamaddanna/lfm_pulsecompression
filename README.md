@@ -50,7 +50,7 @@ The digital receiver hardware pipelines incoming radar echo lines through four p
 *   Mixing the 5–15 MHz chirp with the 10 MHz LO translates the spectrum to baseband, producing difference components spanning from **-5 MHz to +5 MHz** alongside unwanted high-frequency sum components centered at 15–25 MHz.
 
 ### 3. 40-Tap Chebyshev Baseband Decimation Filtering
-*   To wipe away out-of-band mixing products, the I and Q channels are passed into parallel **40-tap Chebyshev window FIR Low-Pass Filters** (`fir_compiler_1`) designed with a sharp cutoff frequency (\(f_c\)) of **8 MHz**.
+*   To wipe away out-of-band mixing products, the I and Q channels are passed into parallel **40-tap Chebyshev window FIR Low-Pass Filters** (`fir_compiler_1`) designed with a sharp cutoff frequency f_c of **8 MHz**.
 *   This stage limits noise bandwidth, strips away sum components, and provides pristine baseband analytic signals ready for matched filtering.
 
 ### 4. Matched Filter Pulse Compression Core
