@@ -8,7 +8,7 @@ The system processes an incoming **10 µs LFM radar pulse** spanning a **25–35
 
 ## 🛠️ Toolchain Infrastructure & DSP Environment
 
-To maintain exact bit-true and cycle-accurate processing alignment across floating-point prototypes and FPGA hardware, the design was processed through a unified DSP toolchain flow:
+To maintain bit-true and cycle-accurate alignment between floating-point prototypes and FPGA hardware implementation, the design follows a unified DSP development flow:
 
 *   **Algorithmic Modeling & Filter Design:** Structured inside **MATLAB**. Used to simulate floating-point chirp characteristics, design the 40-tap Chebyshev window low-pass filters, generate bit-true fixed-point matched filter coefficient arrays via time-reversal (`conj(fliplr(x))`), and verify processing gain boundaries.
 *   **VHDL RTL Design & Simulation Testbench:** Developed and debugged the VHDL architecture, using behavioral testbenches and test vectors for functional verification. Vivado ILA was used for internal signal capture and hardware-level debugging. The design uses differential system clock inputs (sys_clk_p/sys_clk_n) to generate the 200 MHz processing clock.
@@ -38,7 +38,7 @@ The digital receiver hardware pipelines incoming radar echo signals through four
     [ Matched Filter][ Matched Filter] ◄── Pulse Compression Cores (pc_real / pc_imag)
          │               │
          ▼               ▼
-    fir_i_d_out     fir_q_d_out    ◄── ~0.1 µs Compressed Radar Echo Peak
+    fir_i_d_out     fir_q_d_out    ◄── 0.1 µs Compressed Radar Echo Peak
 ```
 
 ### 1. Second-Subsampling Bandpass ADC Profile
@@ -66,7 +66,7 @@ The hardware top-level wrapper (`pulse_compression_top.vhd`) structures an autom
 ### Core IP Component Layout
 *   `clk_wiz_0` (Clock Wizard): Samples differential inputs (`sys_clk_p`/`n`) to synthesize a high-frequency internal **200 MHz core processing clock** (`clk_200M`).
 *   `dds_compiler_0` (Chirp Generator): Simulates radar target reflections inside testbenches by generating a gated 10 µs burst up-chirp using a 32-bit phase accumulator.
-*   `dds_compiler_1` (LO Generator): Generates continuous 200 MHz sample-synchronized 16-bit reference Cosine and Sine carrier tracks centered precisely at 10 MHz.
+*   `dds_compiler_1` (LO Generator): Generates continuous 200 MHz sample-synchronized 16-bit reference Cosine and Sine carrier signals centered precisely at 10 MHz.
 *   `cmpy_0` (Complex Multipliers): Performs complex multiplication of the digitized IF signal with the 10 MHz reference oscillator to implement I/Q downconversion.
 *   `fir_compiler_1` (Low Pass Filters): Implements the parallel 40-tap Chebyshev-window FIR low-pass filters using Xilinx FIR Compiler IP.
 *   `fir_compiler_0` / `fir_compiler_2` (Pulse Compression Cores): Implement the I/Q matched-filter structures using Xilinx FIR Compiler IP, producing 64-bit output vectors (fir_i_d_out and fir_q_d_out) to preserve signal precision.
@@ -92,7 +92,7 @@ The flat root directory houses all core synthesizable code modules, automated si
 *   `filtered_chirp.png` — Time-domain waveform trace illustrating envelope attenuation across the 10 µs pulse width.
 *   `pc_real.png` — Time-domain plot tracking the calculated fixed-point real (In-Phase) matched filter coefficient template.
 *   `pc_imag.png` — Time-domain plot tracking the calculated fixed-point imaginary (Quadrature) matched filter coefficient template.
-*   `pc_outreal.png` — Frequency domain plot mapping the spectral output of the compressed In-Phase baseband array.
+*   `pc_outreal.png` — Frequency-domain plot mapping the spectral output of the compressed In-Phase baseband array.
 *   `pc_outimag.png` — Frequency domain plot mapping the spectral output of the compressed Quadrature baseband array.
   
 ### Real-Time Hardware Logic Waveforms
